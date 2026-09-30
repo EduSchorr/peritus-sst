@@ -1,0 +1,42 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Runtime / case data
+data/*
+!data/.gitkeep
+documentos_gerados/*
+!documentos_gerados/.gitkeep
+backups/
+atualizacoes/
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Secrets / local configuration
+.env
+.env.*
+config.json
+settings.json
+*.key
+*.pem
+
+# User evidence and generated documents
+*.pdf
+*.doc
+*.docx
+*.rtf
+*.xlsx
+*.xls
+*.csv
+*.zip
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
