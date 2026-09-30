@@ -1,0 +1,17 @@
+PERITUS SST 0.7.6 BETA
+
+ALTERAÇÕES
+- Quesitos são extraídos como perguntas individuais, sem copiar a petição inteira.
+- Cada quesito possui caixa própria de resposta e mantém sua ordem no Word.
+- A resposta é inserida imediatamente depois da pergunta no laudo.
+- Tabela de informações iniciais ajustada ao padrão visual do laudo-base.
+- Cabeçalho reposicionado para impedir o corte da identificação profissional.
+- EPIs reconhecidos podem ser organizados em tabela detalhada com CA, fabricante,
+  quantidade, aplicação, entrega/troca e observações.
+- Catálogo local de EPCs com sugestões contextuais e confirmação manual.
+- Fotografias de empresa, setores, riscos, EPIs e EPCs são distribuídas no corpo
+  do laudo; anexos ficam reservados para conteúdo complementar.
+
+OBSERVAÇÃO
+Sugestões de EPI e EPC dependem de conferência do responsável técnico e não
+representam constatação, eficácia ou conclusão automática.
