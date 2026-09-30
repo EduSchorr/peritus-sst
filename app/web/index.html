@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Peritus SST — Beta</title>
+  <meta name="description" content="Sistema local para gestão e geração assistida de laudos de SST.">
+  <link rel="stylesheet" href="styles.css?v=0.7.6">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+<span class="brandmark">P</span>
+<div>
+<strong>Peritus</strong>
+<small>SST inteligente</small>
+</div>
+</div>
+    <nav id="nav">
+      <button class="nav-item active" data-view="dashboard">
+<span>⌂</span>Visão geral</button>
+      <button class="nav-item" data-view="novo">
+<span>＋</span>Nova perícia</button>
+      <button class="nav-item" data-view="revisao">
+<span>✓</span>Revisar extração <b class="badge" id="review-badge">0</b>
+</button>
+      <button class="nav-item" data-view="riscos">
+<span>◇</span>Riscos e medições</button>
+      <button class="nav-item" data-view="laudo">
+<span>▤</span>Compor laudo</button>
+      <button class="nav-item" data-view="database">
+<span>▥</span>Banco de dados</button>
+      <button class="nav-item" data-view="acervo">
+<span>▦</span>Base técnica</button>
+      <button class="nav-item" data-view="ia">
+<span>⚙</span>Configuração da IA</button>
+    </nav>
+    <div class="sidebar-foot">
+<div class="avatar">RT</div>
+<div>
+<strong>Usuário local</strong>
+<small>Responsável técnico</small>
+</div>
+</div>
+  </aside>
+
+  <main>
+    <header>
+<div>
+<h1 id="page-title">Visão geral</h1>
+<p id="page-subtitle">Acompanhe perícias, pendências e documentos.</p>
+</div>
+<div class="header-actions">
+<span class="local">● Dados locais</span>
+<input id="update-file" type="file" accept=".zip" hidden>
+<button class="secondary" id="update-system" title="Selecionar e aplicar atualização">↻ Atualizar sistema</button>
+<button class="secondary go" data-go="ia" title="Abrir configuração da IA">⚙ Configurar IA</button>
+<div class="system-action restart-action" title="Ative o switch para confirmar">
+<label class="confirm-switch"><input id="restart-confirm" type="checkbox"><span></span></label>
+<button class="secondary" id="restart-system" disabled>↻ Reiniciar</button>
+</div>
+<div class="system-action close-action" title="Ative o switch para confirmar">
+<label class="confirm-switch"><input id="shutdown-confirm" type="checkbox"><span></span></label>
+<button class="danger" id="shutdown-system" disabled>⏻ Fechar</button>
+</div>
+</div>
+</header>
+
+    <section class="view active" id="dashboard">
+      <div class="hero">
+<div>
+<span class="eyebrow">VERSÃO BETA OPERACIONAL</span>
+<h2>Da ficha de campo ao laudo revisado.</h2>
+<p>Extração assistida, biblioteca técnica, medições e documentos padronizados em um único fluxo.</p>
+<button class="primary go" data-go="novo">Criar nova perícia <span>→</span>
+</button>
+</div>
+<div class="hero-flow">
+<div>
+<b>01</b>
+<span>Ficha</span>
+</div>
+<i>→</i>
+<div>
+<b>02</b>
+<span>Revisão</span>
+</div>
+<i>→</i>
+<div>
+<b>03</b>
+<span>Riscos</span>
+</div>
+<i>→</i>
+<div>
+<b>04</b>
+<span>Laudo</span>
+</div>
+</div>
+</div>
+      <div class="stats">
+<article>
+<span>Perícias cadastradas</span>
+<strong id="dash-total">0</strong>
+<small>Registros reais no banco local</small>
+</article>
+<article>
+<span>Em revisão</span>
+<strong id="dash-review">0</strong>
+<small>Aguardando validação técnica</small>
+</article>
+<article>
+<span>Documentos gerados</span>
+<strong id="dash-generated">0</strong>
+<small>Arquivos Word registrados</small>
+</article>
+<article>
+<span>Base documental</span>
+<strong id="dash-knowledge">0</strong>
+<small>Documentos SST importados</small>
+</article>
+</div>
+      <div class="grid-two">
+<article class="panel">
+<div class="panel-title">
+<div>
+<h3>Perícias recentes</h3>
+<p>Registros reais salvos neste computador</p>
+</div>
+</div>
+<div id="recent-cases">
+<p class="muted">Nenhuma perícia cadastrada.</p>
+</div>
+</article>
+<article class="panel value-card">
+<span class="eyebrow">STATUS OPERACIONAL</span>
+<h3>Sistema pronto para uso controlado.</h3>
+<ul class="operational-list">
+<li>Extração documental com IA configurável</li>
+<li>Revisão e aprovação pelo responsável técnico</li>
+<li>Banco SST com rastreabilidade e duplicidade</li>
+<li>Geração de Word com riscos explicados</li>
+</ul>
+<small id="app-version">Carregando versão…</small>
+</article>
+</div>
+    </section>
+
+    <section class="view" id="novo">
+      <div class="stepper">
+<span class="on">1 <b>Documentos</b>
+</span>
+<i>
+</i>
+<span>2 <b>Extração</b>
+</span>
+<i>
+</i>
+<span>3 <b>Análise</b>
+</span>
+<i>
+</i>
+<span>4 <b>Documento</b>
+</span>
+</div>
+      <div class="workflow-real">
+<div>
+<b>1</b>
+<span>Ficha de campo</span>
+</div>
+<i>→</i>
+<div>
+<b>2</b>
+<span>Fotos e documentos</span>
+</div>
+<i>→</i>
+<div>
+<b>3</b>
+<span>Laudo semipront​o</span>
+</div>
+<i>→</i>
+<div>
+<b>4</b>
+<span>Revisão técnica final</span>
+</div>
+</div>
+      <div class="grid-two wide-left">
+<article class="panel">
+<div class="panel-title">
+<div>
+<span class="eyebrow">ETAPA 1 DE 4</span>
+<h3>Documentos da perícia</h3>
+<p>Envie ficha, fotos, documentos e, quando existir, o laudo semipront​o. Classifique cada arquivo no fluxo.</p>
+</div>
+</div>
+<label class="drop" id="dropzone">
+<input id="file-input" type="file" multiple accept="image/*,.pdf,.doc,.docx">
+<span class="upload-icon">⇧</span>
+<strong>Arraste os arquivos ou clique para selecionar</strong>
+<small>JPG, PNG, PDF, DOC ou DOCX · até 50 MB por arquivo</small>
+</label>
+<div id="file-list">
+</div>
+<div class="form-row">
+<label>Qual laudo será elaborado?<select id="doc-type">
+<option>Sugerir automaticamente pela ficha</option>
+<option>Laudo judicial de insalubridade</option>
+<option>Laudo judicial de periculosidade</option>
+<option>Laudo combinado — insalubridade e periculosidade</option>
+</select><small>A escolha manual prevalece; a IA também apresentará uma sugestão.</small>
+</label>
+<label>Responsável pela revisão<input placeholder="Nome do responsável técnico">
+</label>
+</div>
+<div class="actions right">
+<button class="primary" id="process-btn" disabled>Processar documentos <span>→</span>
+</button>
+</div>
+</article>
+<aside class="panel tip">
+<span>✦</span>
+<h3>Fluxo técnico do laudo</h3>
+<p>O sistema organiza o levantamento e prepara a minuta. A etapa final permanece sob responsabilidade do engenheiro.</p>
+<ul>
+<li>Depoimentos separados</li>
+<li>Fotografias com legenda</li>
+<li>Riscos explicados e contextualizados</li>
+<li>Conclusão e quesitos com aprovação técnica</li>
+</ul>
+</aside>
+</div>
+    </section>
+
+    <section class="view" id="revisao">
+      <div class="notice">
+<span>!</span>
+<div>
+<strong>Campos técnicos precisam de confirmação</strong>
+<p>Revise os itens destacados antes de avançar. O sistema nunca conclui informações ambíguas automaticamente.</p>
+</div>
+</div>
+      <div class="review-layout">
+<article class="doc-preview">
+<div class="paper">
+<div class="paper-head">ANEXO I — RELATÓRIO TÉCNICO PERICIAL</div>
+<div class="paper-line">
+</div>
+<div class="paper-box">
+<b>A. INFORMAÇÕES INICIAIS</b>
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+</div>
+<div class="paper-box handwritten">
+<b>D. ATIVIDADES SEGUNDO O(A) RECLAMANTE</b>
+<em>O texto reconhecido na ficha aparecerá aqui para conferência.</em>
+<em>Campos duvidosos serão destacados antes da geração.</em>
+</div>
+<div class="scan-tag">Ficha carregada · imagem preservada localmente</div>
+</div>
+</article>
+<article class="panel fields">
+<div class="panel-title">
+<div>
+<span class="eyebrow">EXTRAÇÃO DA FICHA</span>
+<h3>Confira os dados identificados</h3>
+</div>
+<span class="confidence" id="confidence">Aguardando revisão</span>
+</div>
+<div class="type-suggestion" id="type-suggestion" hidden><div><span class="eyebrow">SUGESTÃO DA IA</span><strong id="suggested-type"></strong><small id="suggested-reason"></small></div><button class="secondary" id="apply-suggested-type">Usar sugestão</button></div>
+<div class="form-grid">
+<label>Modalidade selecionada<select id="f-tipo">
+<option>Laudo judicial de insalubridade</option>
+<option>Laudo judicial de periculosidade</option>
+<option>Laudo combinado — insalubridade e periculosidade</option>
+</select>
+<small class="ok">✓ decisão final do responsável</small>
+</label>
+<label>Processo<input id="f-processo" value="[PROCESSO]">
+<small class="ok">✓ revisar</small>
+</label>
+<label>Reclamante<input id="f-reclamante" value="[RECLAMANTE]">
+<small class="ok">✓ revisar</small>
+</label>
+<label>Reclamada<input id="f-reclamada" value="[RECLAMADA]">
+<small class="ok">✓ revisar</small>
+</label>
+<label>Vara<input id="f-vara" value="[VARA]">
+<small class="ok">✓ revisar</small>
+</label>
+<label>Data<input id="f-data" value="">
+<small class="ok">✓ revisar</small>
+</label>
+<label>Horário<input id="f-horario" value="">
+<small class="ok">✓ revisar</small>
+</label>
+<label>Local<input id="f-local" value="[ENDEREÇO]">
+<small class="ok">✓ revisar</small>
+</label>
+<label>Período avaliado<input id="f-periodo" value="">
+<small class="ok">✓ revisar</small>
+</label>
+<label>Cargo<input id="f-cargo" value="">
+<small class="warn">! confirmar</small>
+</label>
+<label>Setor<input id="f-setor" value="">
+<small class="warn">! confirmar</small>
+</label>
+<label class="full">Objeto da perícia<textarea id="f-objeto" placeholder="Pedido técnico que deverá ser examinado no laudo.">
+</textarea>
+</label>
+<label class="full">Explicativo do pedido<textarea id="f-pedido-explicativo" placeholder="Síntese editável do pedido, sem criar fatos ou conclusões."></textarea></label>
+<label class="full">Informações adicionais — Considerações iniciais<textarea id="f-consideracoes" placeholder="Use uma linha por informação adicional. O texto será incluído após a abertura do laudo."></textarea></label>
+<label class="full standard-field">Texto padrão da descrição de atividades<textarea id="f-atividades-padrao">As entrevistas foram realizadas com acompanhamento das partes; após as devidas indagações e questionamentos, o perito realizou a leitura dos depoimentos aos presentes, que confirmaram as informações prestadas, seguindo-se a inspeção dos ambientes e atividades pertinentes.</textarea></label>
+<label class="full">Atividades segundo o reclamante<textarea id="f-ativ-rec"></textarea></label>
+<label class="full">Atividades segundo a reclamada<textarea id="f-ativ-recl"></textarea></label>
+<label class="full">EPIs segundo o reclamante<textarea id="f-epi-rec"></textarea></label>
+<label class="full">EPIs/documentos segundo a reclamada<textarea id="f-epi-recl"></textarea></label>
+<label class="full">EPCs e controles coletivos<textarea id="f-epcs"></textarea></label>
+<label class="full">Treinamentos segundo o reclamante<textarea id="f-trein-rec"></textarea></label>
+<label class="full">Treinamentos segundo a reclamada/documentos<textarea id="f-trein-recl"></textarea></label>
+<label class="full">Descrição do ambiente<textarea id="f-ambiente"></textarea></label>
+<label class="full">Divergências entre as partes<textarea id="f-divergencias"></textarea></label>
+<label class="full">Observações da inspeção<textarea id="f-observacoes"></textarea></label>
+</div>
+<div class="actions">
+<button class="secondary go" data-go="novo">← Voltar</button>
+<button class="primary" id="save-review">Salvar e analisar riscos <span>→</span>
+</button>
+</div>
+</article>
+</div>
+    </section>
+
+    <section class="view" id="riscos">
+      <div class="split-head"><div><span class="eyebrow">ANÁLISE ASSISTIDA</span><h2>Riscos e medições</h2><p>Sugestões são baseadas nos dados revisados e exigem confirmação humana.</p></div></div>
+      <div id="risk-list" class="risk-list"><p class="muted">Salve a revisão para gerar sugestões de risco.</p></div>
+      <article class="panel measurements"><div class="panel-title"><div><h3>Medições registradas</h3><p>Inclua somente medições reais e rastreáveis.</p></div><button class="secondary" id="add-measurement">＋ Adicionar medição</button></div><div id="measurement-list"></div></article>
+      <div class="actions right"><button class="secondary go" data-go="revisao">← Revisar dados</button><button class="primary go" data-go="laudo">Compor laudo <span>→</span></button></div>
+    </section>
+
+    <section class="view" id="laudo">
+      <div class="split-head"><div><span class="eyebrow">VALIDAÇÃO PROFISSIONAL</span><h2>Composição do laudo</h2><p>Revise análises, conclusão, quesitos e fotografias antes de gerar o arquivo final.</p></div></div>
+      <article class="panel"><div class="form-grid">
+<label class="full">Conclusão técnica<textarea id="f-conclusao"></textarea></label>
+<label class="full">Fundamentação / metodologia<textarea id="f-metodologia"></textarea></label>
+<div class="full"><strong>Fotografias</strong><div id="photo-list"></div></div>
+<div class="full quesitos-grid"><section class="questions-column"><strong>Quesitos do reclamante e respostas</strong><input class="questions-file" id="questions-file-reclamante" data-side="reclamante" type="file" accept=".docx,.dotx,.pdf,.txt,.rtf,.jpg,.jpeg,.png" hidden><button type="button" class="secondary add-questions" data-side="reclamante">＋ Selecionar arquivo de quesitos do reclamante</button><button type="button" class="secondary manual-question" data-side="reclamante">＋ Pergunta manual</button><small class="questions-file-status" id="questions-status-reclamante"></small><div class="questions-list" id="questions-list-reclamante"></div></section><section class="questions-column"><strong>Quesitos da reclamada e respostas</strong><input class="questions-file" id="questions-file-reclamada" data-side="reclamada" type="file" accept=".docx,.dotx,.pdf,.txt,.rtf,.jpg,.jpeg,.png" hidden><button type="button" class="secondary add-questions" data-side="reclamada">＋ Selecionar arquivo de quesitos da reclamada</button><button type="button" class="secondary manual-question" data-side="reclamada">＋ Pergunta manual</button><small class="questions-file-status" id="questions-status-reclamada"></small><div class="questions-list" id="questions-list-reclamada"></div></section></div>
+<label class="approval-check"><input id="f-aprovacao" type="checkbox">Confirmo que revisei os dados, análises, enquadramentos, conclusão, quesitos e fotografias e autorizo a geração do laudo técnico.</label>
+<div class="readiness" id="readiness"><strong>Verificação de completude</strong><span>Preencha os campos obrigatórios antes de gerar o documento.</span></div>
+</div>
+<div class="doc-toolbar"><div><strong>Laudo pericial — minuta assistida</strong><small>Riscos explicados, fontes registradas e fotografias anexadas</small></div><div><button class="secondary" id="download-doc">Baixar Word</button><button class="primary" id="print-pdf">Gerar PDF</button></div></div>
+<div class="a4" id="report"><div class="report-brand">PERITUS <span>ENGENHARIA E PERÍCIAS</span></div><h1>RELATÓRIO DE PERÍCIA TÉCNICA</h1><p class="center" id="report-tipo">MODALIDADE NÃO INFORMADA</p>
+<h2>1. IDENTIFICAÇÃO</h2><table><tr><th>Processo</th><td id="report-processo">Não informado</td></tr><tr><th>Reclamante</th><td id="report-reclamante">Não informado</td></tr><tr><th>Reclamada</th><td id="report-reclamada">Não informado</td></tr><tr><th>Período avaliado</th><td id="report-periodo">Não informado</td></tr><tr><th>Função</th><td id="report-cargo">Não informado</td></tr></table>
+<h2>2. OBJETIVO</h2><p>O presente relatório organiza as informações coletadas durante a inspeção técnica para subsidiar a avaliação do profissional legalmente habilitado.</p>
+<h2>3. ATIVIDADES INFORMADAS</h2><p id="report-atividades">Não informado.</p><h2>4. DIVERGÊNCIAS REGISTRADAS</h2><p id="report-divergencias">Nenhuma divergência informada.</p><h2>5. RISCOS EM ANÁLISE</h2><div id="report-risks"><p>Nenhum risco confirmado.</p></div>
+<div class="report-warning"><b>Revisão obrigatória</b><br>Este documento é uma minuta assistida. Enquadramentos e conclusões dependem da validação e assinatura do profissional habilitado.</div></div>
+</article></div>
+    </section>
+
+    <section class="view" id="ia">
+      <div class="split-head"><div><span class="eyebrow">INTELIGÊNCIA ARTIFICIAL</span><h2>Configuração da IA</h2><p>Defina a chave, o modelo utilizado e valide a conexão antes de processar documentos.</p></div><span class="status draft" id="ai-status">Verificando…</span></div>
+      <div class="grid-two ai-grid"><article class="panel"><div class="panel-title"><div><h3>Provedor e credenciais</h3><p>A chave é armazenada somente neste computador, dentro da pasta local do sistema.</p></div></div><div class="ai-form">
+<label class="full">OCR local gratuito<span class="status draft" id="ocr-local-status">Verificando…</span></label>
+<label>Provedor<input value="Google Gemini" disabled></label>
+<label>Modelo<select id="ai-model"><option value="gemini-3.6-flash">Gemini 3.6 Flash</option></select></label>
+<label class="full">Chave da API<input id="ai-key" type="password" autocomplete="new-password" placeholder="Cole uma nova chave para configurar ou substituir"></label>
+<label class="checkbox full"><input id="ai-show-key" type="checkbox">Exibir chave enquanto digito</label>
+<div class="actions full"><button class="secondary" id="ai-clear">Remover chave salva</button><div><button class="secondary" id="ai-test">Testar conexão</button> <button class="primary" id="ai-save">Salvar configuração</button></div></div>
+</div></article><aside class="panel tip"><span>✦</span><h3>Privacidade e funcionamento</h3><p>Word, PDFs com texto e imagens legíveis são extraídos localmente. O Gemini recebe preferencialmente apenas o texto consolidado; o banco histórico permanece local.</p><ul><li>A chave não aparece completa na tela</li><li>Conclusões técnicas não são automáticas</li><li>O responsável revisa todos os campos</li><li>O teste confirma chave e modelo</li></ul></aside></div>
+    </section>
+
+    <section class="view" id="database">
+      <div class="split-head"><div><span class="eyebrow">CONHECIMENTO LOCAL E RASTREÁVEL</span><h2>Banco de dados SST</h2><p>Importe laudos, perícias, PGR, LTCAT, planilhas, imagens e pacotes ZIP para ampliar as sugestões do sistema.</p></div>
+<div class="db-actions"><input id="db-files" type="file" multiple hidden accept=".docx,.dotx,.doc,.dot,.pdf,.rtf,.txt,.xlsx,.xls,.csv,.jpg,.jpeg,.png"><input id="db-folder" type="file" multiple webkitdirectory directory hidden><input id="db-zip-file" type="file" hidden accept=".zip,application/zip"><button class="secondary" id="db-import-files">⇧ Importar arquivos</button><button class="secondary" id="db-import-zip">▣ Importar ZIP</button><button class="primary" id="db-import-folder">▣ Importar pasta</button></div></div>
+      <div class="notice db-notice"><span>i</span><div><strong>Aprendizado supervisionado</strong><p>Os documentos alimentam sugestões por semelhança de cargo, setor e atividade. Nenhum risco ou enquadramento é confirmado automaticamente; revise as relações abaixo.</p></div></div>
+      <article class="panel db-folder-scan"><div><div><h3>Processar uma base grande</h3><p>Para milhares de documentos, informe a pasta existente neste computador. A leitura é recursiva, não altera os originais e continua em segundo plano.</p></div><div class="db-path-row"><input id="db-folder-path" value="C:\Peritus\Base_SST" placeholder="C:\Caminho\da\base"><button class="primary" id="db-scan-folder">Analisar pasta</button></div></div></article>
+      <article class="panel db-folder-scan"><div><div><h3>Ler ZIP grande pelo caminho</h3><p>Recomendado para a base de 5 mil documentos. O ZIP é lido diretamente, sem extrair nem executar arquivos. Pacotes acima de 500 MB devem usar esta opção.</p></div><div class="db-path-row"><input id="db-zip-path" placeholder="C:\Users\Nome\Downloads\base_sst.zip"><button class="primary" id="db-scan-zip">Analisar ZIP</button></div></div></article>
+      <div class="stats"><article><span>Documentos importados</span><strong id="db-stat-docs">0</strong><small>Com hash SHA-256</small></article><article><span>Relações encontradas</span><strong id="db-stat-relations">0</strong><small>Cargo, setor e risco</small></article><article><span>Relações aprovadas</span><strong id="db-stat-approved">0</strong><small>Usadas com maior peso</small></article><article><span>Pendentes de revisão</span><strong id="db-stat-pending">0</strong><small>Exigem validação humana</small></article></div>
+      <article class="panel db-progress" id="db-progress" hidden><div class="panel-title"><div><h3>Importando documentos</h3><p id="db-progress-text">Preparando...</p></div><strong id="db-progress-count">0%</strong></div><div class="bar"><i id="db-progress-bar"></i></div></article>
+      <div class="grid-two db-grid"><article class="panel"><div class="panel-title"><div><h3>Documentos do banco</h3><p>Arquivos duplicados são reconhecidos pelo conteúdo.</p></div><input class="search" id="db-search" placeholder="Buscar nome, tipo ou conteúdo"></div><div id="db-documents" class="db-list"><p class="muted">Nenhum documento importado.</p></div></article><article class="panel"><div class="panel-title"><div><h3>Relações para aprovação</h3><p>Confirme somente associações tecnicamente válidas.</p></div></div><div id="db-relations" class="db-list"><p class="muted">Nenhuma relação identificada.</p></div></article></div>
+      <article class="panel db-reference"><div class="panel-title"><div><h3>Conteúdo SST incluído</h3><p>Catálogo inicial expansível; referências normativas são indicativas e devem ter vigência conferida.</p></div></div><div class="reference-grid"><div><strong>Documentos e perícias</strong><p>Laudos judiciais, insalubridade, periculosidade, previdenciários, LTCAT, PGR, inventário de riscos, ergonomia, quesitos, FISPQ, EPI e medições.</p></div><div><strong>Agentes e perigos</strong><p>Físicos, químicos, biológicos, ergonômicos, acidentes e operações perigosas, com campos de avaliação e textos explicativos.</p></div><div><strong>Fontes técnicas</strong><p>Índice das NRs e referências encontradas nos documentos, sem substituir consulta à versão oficial vigente.</p></div></div></article>
+    </section>
+
+    <section class="view" id="acervo"><div class="split-head"><div><span class="eyebrow">CONHECIMENTO E RASTREABILIDADE</span><h2>Base técnica</h2><p>Conteúdo reutilizável com origem, versão e aprovação.</p></div></div><div class="stats"><article><span>Agentes de risco</span><strong id="catalog-total">0</strong><small>Catálogo técnico disponível</small></article><article><span>Categorias</span><strong id="catalog-categories">0</strong><small>Classificações de riscos</small></article><article><span>Documentos importados</span><strong id="catalog-documents">0</strong><small>Base documental local</small></article><article><span>Origem</span><strong>Local</strong><small>Rastreável e revisável</small></article></div><article class="panel"><div class="panel-title"><div><h3>Biblioteca de riscos</h3><p>Pesquise e inclua qualquer agente na etapa “Riscos e medições”.</p></div></div><div class="library-row"><span class="risk-symbol heat">♨</span><div><strong>Catálogo técnico expansível</strong><small>Conteúdo inicial + relações aprendidas dos documentos importados</small></div><span class="status done">Ativo</span></div></article></section>
+  </main>
+  <div class="toast" id="toast"></div>
+  <div class="update-overlay" id="update-overlay"><div><span class="update-spinner"></span><h2>Aplicando atualização</h2><p id="update-message">Aguarde. O sistema será fechado e aberto novamente automaticamente.</p><small>Não desligue o computador durante esta etapa.</small></div></div>
+  <script src="app.js?v=0.7.6"></script>
+</body>
+</html>
